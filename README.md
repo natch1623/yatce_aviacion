@@ -5,7 +5,7 @@ Presentación web de nueve diapositivas, con escenas de aviación y transiciones
 ## Versiones publicadas
 
 - **[Versión 1](https://natch1623.github.io/yatce_aviacion/v1/)** — archivo autónomo en [`v1/index.html`](v1/index.html).
-- **Versión 2:** pendiente de incorporar. Se podrá añadir en `v2/` sin sustituir la versión 1.
+- **[Versión 2](https://natch1623.github.io/yatce_aviacion/v2/)** — vuelo 3D de 20 diapositivas en [`v2/index.html`](v2/index.html); código fuente en [`v2/fuente/`](v2/fuente/).
 
 La [dirección principal](https://natch1623.github.io/yatce_aviacion/) abre la versión 1.
 
@@ -17,6 +17,15 @@ Abre el enlace público o descarga `v1/index.html` y ábrelo en un navegador mod
 - **F:** pantalla completa. **N:** notas del orador. **P:** pausa del ambiente.
 - Enlace directo a una diapositiva: `v1/#/3`, por ejemplo.
 - **Ctrl+P:** impresión horizontal o exportación a PDF.
+
+## Versión 2: vuelo 3D
+
+Un solo vuelo de principio a fin en Three.js: despegue desde el aeropuerto, crucero entre nubes volumétricas, tormenta, aurora, borde del espacio, paracaídas, mar y aterrizaje con saludo de agua y Blue Angels que escriben GRACIAS. Por ahora las diapositivas solo tienen títulos.
+
+- Abre `v2/index.html`; funciona sin conexión (Three.js va incrustado).
+- **→ / espacio / clic:** avanzar. **←:** retroceder. **F:** pantalla completa. **P:** pausa.
+- Enlace directo a una diapositiva: `v2/#5`. Calidad: `v2/?calidad=baja` o `v2/?calidad=alta`.
+- Edición: títulos en `v2/fuente/src/slides.js`. Para regenerar el HTML: `cd v2/fuente`, `npm install` y `npm run build`.
 
 ## Edición
 

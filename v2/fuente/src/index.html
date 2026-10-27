@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<title>Práctica profesional · Vuelo 3D</title>
+<!--
+  Presentación 3D de la práctica profesional. Un solo archivo, funciona sin internet.
+  CONTROLES: → espacio o clic avanza · ← retrocede · Inicio/Fin · F pantalla completa · P pausa
+  Añade #5 al final de la dirección para abrir directamente en la slide 5.
+  Añade ?calidad=baja si el equipo va lento.
+  El código fuente editable está en v2/fuente/src (npm install y luego npm run build).
+-->
+<style>/*__CSS__*/</style>
+</head>
+<body>
+<canvas id="gl"></canvas>
+<div id="rain"></div>
+<div id="veil"></div>
+<div id="cockpit" aria-hidden="true"></div>
+<div id="scrim"></div>
+<main id="ui">
+  <header id="topbar">
+    <span class="brand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" fill="currentColor"/></svg>Práctica profesional</span>
+    <span id="act"></span>
+    <span id="counter"></span>
+  </header>
+  <section id="slide" aria-live="polite">
+    <p id="kicker"></p>
+    <h1 id="title"></h1>
+    <p id="subtitle"></p>
+  </section>
+  <nav id="route" aria-label="Progreso de la presentación">
+    <div class="track"><div class="fill"></div></div>
+    <div class="ticks"></div>
+    <div class="planeicon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" fill="currentColor"/></svg></div>
+  </nav>
+</main>
+<div id="start">
+  <div class="pass">
+    <div class="pass-main">
+      <p class="pass-kicker">Tarjeta de embarque · Vuelo AR 2026</p>
+      <h1>Práctica profesional</h1>
+      <p class="pass-sub">Un recorrido de aprendizaje</p>
+      <div class="pass-grid">
+        <div><span>Origen</span><b>AULA</b></div>
+        <div><span>Destino</span><b>EXPERIENCIA</b></div>
+        <div><span>Puerta</span><b>07</b></div>
+        <div><span>Asiento</span><b>1A</b></div>
+      </div>
+    </div>
+    <div class="pass-stub">
+      <p id="start-status">Preparando el vuelo…</p>
+      <button id="start-btn" hidden>Abordar</button>
+      <p class="hint">← → avanzar · F pantalla completa · P pausar</p>
+    </div>
+  </div>
+</div>
+<script>/*__JS__*/</script>
+</body>
+</html>

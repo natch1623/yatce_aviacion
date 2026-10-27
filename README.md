@@ -7,7 +7,7 @@ Presentación web de nueve diapositivas, con escenas de aviación y transiciones
 - **[Versión 1](https://natch1623.github.io/yatce_aviacion/v1/)** — archivo autónomo en [`v1/index.html`](v1/index.html).
 - **[Versión 2](https://natch1623.github.io/yatce_aviacion/v2/)** — vuelo 3D de 20 diapositivas en [`v2/index.html`](v2/index.html); código fuente en [`v2/fuente/`](v2/fuente/).
 
-La [dirección principal](https://natch1623.github.io/yatce_aviacion/) abre la versión 1.
+La [dirección principal](https://natch1623.github.io/yatce_aviacion/) abre la versión 2; la versión 1 sigue disponible en su propia URL.
 
 ## Uso
 

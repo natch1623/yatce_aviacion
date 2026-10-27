@@ -6,6 +6,7 @@ Presentación web de nueve diapositivas, con escenas de aviación y transiciones
 
 - **[Versión 1](https://natch1623.github.io/yatce_aviacion/v1/)** — archivo autónomo en [`v1/index.html`](v1/index.html).
 - **[Versión 2](https://natch1623.github.io/yatce_aviacion/v2/)** — vuelo 3D de 20 diapositivas en [`v2/index.html`](v2/index.html); código fuente en [`v2/fuente/`](v2/fuente/).
+- **[Versión 3](https://natch1623.github.io/yatce_aviacion/v3/)** — bitácora dibujada a mano, en [`v3/index.html`](v3/index.html). Veinte láminas de cuaderno que se dibujan con lápiz, tinta y acuarela y pasan como hojas sobre la espiral.
 
 La [dirección principal](https://natch1623.github.io/yatce_aviacion/) abre la versión 2; la versión 1 sigue disponible en su propia URL.
 
@@ -26,6 +27,13 @@ Un solo vuelo de principio a fin en Three.js: despegue desde el aeropuerto, cruc
 - **→ / espacio / clic:** avanzar. **←:** retroceder. **F:** pantalla completa. **P:** pausa.
 - Enlace directo a una diapositiva: `v2/#5`. Calidad: `v2/?calidad=baja` o `v2/?calidad=alta`.
 - Edición: títulos en `v2/fuente/src/slides.js`. Para regenerar el HTML: `cd v2/fuente`, `npm install` y `npm run build`.
+
+## Versión 3: bitácora dibujada a mano
+
+- Flechas, espacio, clic, rueda o deslizamiento: navegación. **F:** pantalla completa. **P:** pausa de la animación.
+- Enlace directo a una diapositiva: `v3/#5`, por ejemplo.
+- Funciona sin conexión; las fuentes están incrustadas. Se respeta la preferencia de movimiento reducido.
+- El código editable (textos y fotos en `slides.js`) está fuera de este repositorio, en `presentacion-dibujo/src`; `node build.mjs` genera el HTML autónomo.
 
 ## Edición
 

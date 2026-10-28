@@ -115,3 +115,24 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #05070b; c
 @media (prefers-reduced-motion: reduce) {
   #title .w > span, #kicker, #subtitle { transition-duration: 0.01s !important; }
 }
+
+/* Fotografías de la práctica sobre el vuelo original. */
+#slide.with-photos{left:4.8vw;right:auto;top:21vh;transform:none;text-align:left;max-width:33vw;isolation:isolate}
+#slide.with-photos::before{content:'';position:absolute;inset:-20px -18px;background:rgba(6,17,31,.78);z-index:-1;border-radius:4px}
+#slide.with-photos #title{font-size:clamp(27px,4.1vw,76px);line-height:1.06}
+#slide.with-photos #title.long{font-size:clamp(27px,3.7vw,68px)}
+#slide.with-photos #title.xlong{font-size:clamp(25px,3.3vw,60px)}
+#slide.with-photos #subtitle{font-size:clamp(16px,1.45vw,27px);margin-top:2vh}
+#practice-points{list-style:none;display:grid;gap:1.65vh;margin-top:3.5vh;font-size:clamp(15px,1.55vw,28px);line-height:1.4;text-wrap:pretty}
+#practice-points li{padding-left:14px;border-left:2px solid var(--accent)}
+#practice-photos{position:absolute;left:40vw;right:3.5vw;top:17vh;bottom:14vh;display:flex;gap:1.4vw;opacity:0;transition:opacity .45s ease;pointer-events:none}
+.content-visible #practice-photos{opacity:1}
+#practice-photos figure{flex:1;min-width:0;display:flex;flex-direction:column;padding:8px;background:rgba(6,17,31,.88);border:1px solid rgba(255,255,255,.45);box-shadow:0 14px 45px rgba(0,0,0,.25);border-radius:3px}
+#practice-photos img{width:100%;height:100%;flex:1;min-height:0;object-fit:contain;display:block}
+#practice-photos figcaption{text-align:center;font-size:clamp(12px,1.05vw,19px);padding:10px 4px 3px;color:#fff4df;line-height:1.25}
+#slide.gallery-heading{top:13vh;max-width:90vw}
+#slide.gallery-heading #title{font-size:clamp(28px,3.7vw,68px)}
+#practice-photos.gallery{left:6vw;right:6vw;top:33vh;bottom:12vh}
+#practice-photos.gallery figcaption{font-size:clamp(12px,1.1vw,20px)}
+@media(max-aspect-ratio:1/1){#slide.with-photos{top:11vh;max-width:90vw;left:5vw}#slide.with-photos #title,#slide.with-photos #title.long,#slide.with-photos #title.xlong{font-size:clamp(25px,6.8vw,40px)}#slide.with-photos #subtitle{font-size:16px;margin-top:1vh}#practice-points{font-size:16px;gap:7px;margin-top:12px}#practice-photos{left:5vw;right:5vw;top:48vh;bottom:10vh}#practice-photos.gallery{top:29vh;bottom:10vh;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}#practice-photos figcaption{font-size:12px;padding:6px 0}#practice-photos.gallery figure{min-height:0}#topbar{font-size:10px;gap:5px}#counter{margin-left:auto}#topbar .brand{letter-spacing:.08em}}
+@media(prefers-reduced-motion:reduce){#practice-photos{transition:none}#title .w>span,#kicker,#subtitle{transition-delay:0s!important}}

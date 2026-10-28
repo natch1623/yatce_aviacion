@@ -27,6 +27,12 @@ export class UI {
     });
     this.fill = $('#route .fill');
     this.planeIcon = $('#route .planeicon');
+    this.photos = document.createElement('div');
+    this.photos.id = 'practice-photos';
+    document.querySelector('#ui').append(this.photos);
+    this.points = document.createElement('ul');
+    this.points.id = 'practice-points';
+    this.slideEl.append(this.points);
     this.buildCockpit();
   }
 
@@ -48,7 +54,15 @@ export class UI {
     });
     this.title.className = s.title.length > 42 ? 'xlong' : s.title.length > 24 ? 'long' : '';
     this.subtitle.textContent = s.subtitle || '';
-    this.slideEl.className = `pos-${s.pos}`;
+    this.points.replaceChildren(...s.points.map(text=>{const li=document.createElement('li');li.textContent=text;return li;}));
+    this.photos.replaceChildren(...s.photos.map(p=>{
+      const fig=document.createElement('figure'),img=new Image(),cap=document.createElement('figcaption');
+      img.src=p.src;img.alt=p.caption;img.decoding='async';cap.textContent=p.caption;
+      fig.append(img,cap);return fig;
+    }));
+    this.photos.className=s.photos.length>2?'gallery':'pair';
+    this.slideEl.className = `pos-${s.pos} with-photos ${s.photos.length>2?'gallery-heading':''}`;
+    document.querySelector('#ui').classList.add('content-visible');
     void this.slideEl.offsetWidth;
     this.slideEl.classList.add('in');
     this.act.textContent = ACTS[s.act];
@@ -59,6 +73,7 @@ export class UI {
   }
 
   hide() {
+    document.querySelector('#ui').classList.remove('content-visible');
     this.slideEl.classList.remove('in');
     this.slideEl.classList.add('out');
     this.scrim.style.opacity = 0;

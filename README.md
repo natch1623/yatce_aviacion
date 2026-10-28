@@ -1,6 +1,8 @@
 # Práctica profesional · Aviación
 
-Presentación web de nueve diapositivas, con escenas de aviación y transiciones animadas.
+Tres estilos de presentación de la práctica de Yatcelys Yusseth Grajales Pitti en Air Panamá, estación David. Cada versión contiene 20 diapositivas con texto breve y 21 fotografías personales distintas, incrustadas en el HTML.
+
+Contenido actualizado el 28 de octubre de 2026 a partir del informe final de Yatcelys. Los títulos siguen la estructura de la presentación de referencia de su compañera; las actividades, los logros y el FODA corresponden a Yatcelys. No se trasladan las fechas, la identidad ni el registro diario de la compañera.
 
 ## Versiones publicadas
 
@@ -21,7 +23,7 @@ Abre el enlace público o descarga `v1/index.html` y ábrelo en un navegador mod
 
 ## Versión 2: vuelo 3D
 
-Un solo vuelo de principio a fin en Three.js: despegue desde el aeropuerto, crucero entre nubes volumétricas, tormenta, aurora, borde del espacio, paracaídas, mar y aterrizaje con saludo de agua y Blue Angels que escriben GRACIAS. Por ahora las diapositivas solo tienen títulos.
+Un solo vuelo de principio a fin en Three.js: despegue desde el aeropuerto, crucero entre nubes volumétricas, tormenta, aurora, borde del espacio, paracaídas, mar y aterrizaje con saludo de agua y Blue Angels que escriben GRACIAS. Sobre cada escena se muestran los títulos, los puntos principales del informe y fotografías completas de la experiencia.
 
 - Abre `v2/index.html`; funciona sin conexión (Three.js va incrustado).
 - **→ / espacio / clic:** avanzar. **←:** retroceder. **F:** pantalla completa. **P:** pausa.
@@ -38,6 +40,8 @@ Un solo vuelo de principio a fin en Three.js: despegue desde el aeropuerto, cruc
 ## Edición
 
 Textos, notas, temas, cámaras y fotos se editan en `PRESENTATION`, al principio de `v1/index.html`. Los comentarios del archivo explican los campos. Para conservar el HTML autónomo, usa imágenes o modelos con datos base64 en sus campos `src` y `cinema.modelGLB`.
+
+En v1, las 20 diapositivas se distribuyen sobre los nueve tramos de vuelo originales mediante `sceneMap`; la navegación, el progreso y los enlaces admiten las 20. En v2 y v3 se conservan los 20 pasos de sus respectivos estilos. Las imágenes usan su proporción original, con leyendas breves, y el texto de apoyo se conserva en los datos `notes`; v1 permite mostrarlo con **N**.
 
 La escena y los aviones actuales se generan por código. La calidad se adapta al equipo; no se garantizan 60 fps constantes. Se respeta la preferencia de movimiento reducido y hay un respaldo para navegadores sin WebGL.
 

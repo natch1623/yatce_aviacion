@@ -4,36 +4,35 @@
   const select = document.getElementById('page-select');
   const previous = document.getElementById('previous');
   const next = document.getElementById('next');
-  const canvas = document.getElementById('page-canvas');
-  const context = canvas.getContext('2d', { alpha: false });
-  const paper = document.getElementById('paper');
+  const pages = document.getElementById('pages');
+  const toolbar = document.querySelector('.toolbar');
   const region = document.getElementById('document-region');
-  const loading = document.getElementById('loading');
-  const error = document.getElementById('error');
   const zoomOut = document.getElementById('zoom-out');
   const zoomIn = document.getElementById('zoom-in');
   const zoomReset = document.getElementById('zoom-reset');
+  const records = [];
   let current = 1;
   let zoom = 100;
-  let request = 0;
+  let scrollFrame = 0;
   let toastTimer;
-  const cache = new Map();
 
   for (let number = 1; number <= total; number += 1) {
     select.add(new Option(String(number), String(number)));
-  }
-
-  function imageFor(number) {
-    if (cache.has(number)) return cache.get(number);
-    const promise = new Promise((resolve, reject) => {
-      const image = new Image();
-      image.decoding = 'async';
-      image.onload = () => resolve(image);
-      image.onerror = () => { cache.delete(number); reject(new Error('Página no disponible')); };
-      image.src = `paginas/pagina-${String(number).padStart(2, '0')}.webp`;
+    const figure = document.createElement('figure');
+    figure.className = 'page';
+    figure.id = `pagina-${number}`;
+    figure.dataset.page = String(number);
+    figure.innerHTML = `<div class="paper" aria-busy="true">
+      <canvas role="img" aria-label="Página ${number} de ${total} del informe de práctica profesional de Yatcelys Grajales" hidden></canvas>
+      <div class="loading" aria-hidden="true"><span class="spinner"></span><span>Cargando página ${number}…</span></div>
+      <div class="error" role="alert" hidden><strong>No se pudo cargar esta página.</strong><p>Comprueba tu conexión y vuelve a intentarlo.</p><button class="retry" data-page="${number}">Reintentar página ${number}</button></div>
+    </div><figcaption class="page-number">Página ${number} de ${total}</figcaption>`;
+    pages.append(figure);
+    records.push({
+      number, figure, paper: figure.querySelector('.paper'),
+      canvas: figure.querySelector('canvas'), loading: figure.querySelector('.loading'),
+      error: figure.querySelector('.error'), state: 'idle', request: 0
     });
-    cache.set(number, promise);
-    return promise;
   }
 
   function parseHash() {
@@ -41,55 +40,125 @@
     return match ? Math.min(total, Math.max(1, Number(match[1]))) : 1;
   }
 
-  async function showPage(number, scroll = true) {
-    const activeRequest = ++request;
+  function setCurrent(number) {
     current = Math.min(total, Math.max(1, number));
     select.value = String(current);
     previous.disabled = current === 1;
     next.disabled = current === total;
-    canvas.hidden = true;
-    loading.hidden = false;
-    error.hidden = true;
-    region.setAttribute('aria-busy', 'true');
-    document.getElementById('loading-text').textContent = `Cargando página ${current}…`;
     document.getElementById('page-caption').textContent = `Página ${current} de ${total}`;
-    history.replaceState(null, '', `#pagina=${current}`);
-    if (scroll) {
-      region.scrollLeft = 0;
-      window.scrollTo({ top: 0, behavior: 'instant' });
-    }
+    if (location.hash !== `#pagina=${current}`) history.replaceState(null, '', `#pagina=${current}`);
+  }
+
+  async function renderPage(record, retry = false) {
+    if (record.state === 'loading' || record.state === 'ready' || (record.state === 'error' && !retry)) return;
+    const request = ++record.request;
+    record.state = 'loading';
+    record.loading.hidden = false;
+    record.error.hidden = true;
+    record.paper.setAttribute('aria-busy', 'true');
     try {
-      const image = await imageFor(current);
-      if (activeRequest !== request) return;
+      const image = await new Promise((resolve, reject) => {
+        const source = new Image();
+        source.decoding = 'async';
+        source.onload = () => resolve(source);
+        source.onerror = () => reject(new Error('Página no disponible'));
+        source.src = `paginas/pagina-${String(record.number).padStart(2, '0')}.webp`;
+      });
+      if (request !== record.request) return;
+      const context = record.canvas.getContext('2d', { alpha: false });
       if (!context) throw new Error('Este navegador no admite el visor');
-      canvas.width = image.naturalWidth;
-      canvas.height = image.naturalHeight;
-      paper.style.setProperty('--page-ratio', `${canvas.width}/${canvas.height}`);
-      context.drawImage(image, 0, 0);
-      canvas.setAttribute('aria-label', `Página ${current} de ${total} del informe de práctica profesional de Yatcelys Grajales`);
-      canvas.hidden = false;
-      loading.hidden = true;
-      region.setAttribute('aria-busy', 'false');
-      // Keep only the current page and its neighbours in memory on phones.
-      for (const key of cache.keys()) if (Math.abs(key - current) > 1) cache.delete(key);
-      for (const nearby of [current - 1, current + 1]) {
-        if (nearby >= 1 && nearby <= total) imageFor(nearby).catch(() => {});
-      }
+      const width = Math.min(image.naturalWidth, Math.max(850, Math.ceil(record.paper.clientWidth * (window.devicePixelRatio || 1))));
+      record.canvas.width = width;
+      record.canvas.height = Math.round(width * image.naturalHeight / image.naturalWidth);
+      context.drawImage(image, 0, 0, record.canvas.width, record.canvas.height);
+      record.canvas.hidden = false;
+      record.loading.hidden = true;
+      record.paper.setAttribute('aria-busy', 'false');
+      record.state = 'ready';
     } catch (_) {
-      if (activeRequest !== request) return;
-      loading.hidden = true;
-      error.hidden = false;
-      region.setAttribute('aria-busy', 'false');
+      if (request !== record.request) return;
+      record.loading.hidden = true;
+      record.error.hidden = false;
+      record.paper.setAttribute('aria-busy', 'false');
+      record.state = 'error';
     }
   }
 
+  function releasePage(record) {
+    if (record.state === 'idle' || record.state === 'error') return;
+    // Leave every paper in the scroll layout, but release distant canvas memory.
+    record.request += 1;
+    record.canvas.hidden = true;
+    record.canvas.width = 1;
+    record.canvas.height = 1;
+    record.state = 'idle';
+    record.loading.hidden = false;
+    record.paper.setAttribute('aria-busy', 'true');
+  }
+
+  const observer = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      const record = records[Number(entry.target.dataset.page) - 1];
+      if (entry.isIntersecting) renderPage(record);
+      else releasePage(record);
+    }
+  }, { rootMargin: '700px 0px' }) : null;
+  for (const record of records) {
+    if (observer) observer.observe(record.figure);
+    else renderPage(record);
+  }
+
+  function updateFromScroll() {
+    scrollFrame = 0;
+    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 3) {
+      setCurrent(total);
+      return;
+    }
+    const readingLine = toolbar.getBoundingClientRect().bottom + Math.min(180, window.innerHeight * 0.2);
+    let number = 1;
+    for (const record of records) {
+      if (record.figure.getBoundingClientRect().top <= readingLine) number = record.number;
+      else break;
+    }
+    setCurrent(number);
+  }
+
+  function scheduleScrollUpdate() {
+    if (!scrollFrame) scrollFrame = requestAnimationFrame(updateFromScroll);
+  }
+
+  function goToPage(number) {
+    setCurrent(number);
+    const record = records[current - 1];
+    renderPage(record);
+    const top = record.figure.getBoundingClientRect().top + window.scrollY - toolbar.offsetHeight - 16;
+    window.scrollTo({ top: Math.max(0, top), behavior: 'instant' });
+    scheduleScrollUpdate();
+  }
+
   function changeZoom(value) {
+    const record = records[current - 1];
+    const bounds = record.figure.getBoundingClientRect();
+    const readingOffset = toolbar.offsetHeight + 16;
+    const fraction = Math.max(0, Math.min(1, (readingOffset - bounds.top) / bounds.height));
     zoom = Math.max(100, Math.min(250, value));
     document.documentElement.style.setProperty('--zoom', String(zoom / 100));
     zoomReset.textContent = `${zoom}%`;
     zoomOut.disabled = zoom === 100;
     zoomIn.disabled = zoom === 250;
     if (zoom === 100) region.scrollLeft = 0;
+    requestAnimationFrame(() => {
+      const updated = record.figure.getBoundingClientRect();
+      window.scrollTo({ top: updated.top + window.scrollY + updated.height * fraction - readingOffset, behavior: 'instant' });
+      for (const candidate of records) {
+        const box = candidate.figure.getBoundingClientRect();
+        if (candidate.state === 'ready' && box.bottom >= -700 && box.top <= window.innerHeight + 700) {
+          candidate.state = 'idle';
+          renderPage(candidate);
+        }
+      }
+      scheduleScrollUpdate();
+    });
   }
 
   function readingNotice() {
@@ -100,16 +169,23 @@
     toastTimer = setTimeout(() => { toast.hidden = true; }, 2800);
   }
 
-  previous.addEventListener('click', () => showPage(current - 1));
-  next.addEventListener('click', () => showPage(current + 1));
-  select.addEventListener('change', () => showPage(Number(select.value)));
-  document.getElementById('retry').addEventListener('click', () => showPage(current, false));
+  previous.addEventListener('click', () => goToPage(current - 1));
+  next.addEventListener('click', () => goToPage(current + 1));
+  select.addEventListener('change', () => goToPage(Number(select.value)));
+  pages.addEventListener('click', event => {
+    const retry = event.target.closest('.retry');
+    if (retry) renderPage(records[Number(retry.dataset.page) - 1], true);
+  });
   zoomOut.addEventListener('click', () => changeZoom(zoom - 25));
   zoomIn.addEventListener('click', () => changeZoom(zoom + 25));
   zoomReset.addEventListener('click', () => changeZoom(100));
-  window.addEventListener('hashchange', () => showPage(parseHash()));
-  canvas.addEventListener('contextmenu', event => { event.preventDefault(); readingNotice(); });
-  canvas.addEventListener('dragstart', event => event.preventDefault());
+  window.addEventListener('hashchange', () => goToPage(parseHash()));
+  window.addEventListener('scroll', scheduleScrollUpdate, { passive: true });
+  window.addEventListener('resize', scheduleScrollUpdate, { passive: true });
+  pages.addEventListener('contextmenu', event => {
+    if (event.target.matches('canvas')) { event.preventDefault(); readingNotice(); }
+  });
+  pages.addEventListener('dragstart', event => event.preventDefault());
   document.addEventListener('keydown', event => {
     // UI deterrents only: public rendered pages can still be saved or captured.
     if ((event.ctrlKey || event.metaKey) && ['s', 'p'].includes(event.key.toLowerCase())) {
@@ -119,10 +195,13 @@
     }
     if (event.ctrlKey || event.metaKey || event.altKey) return;
     if (event.target.closest('select,input,textarea,button,[contenteditable]')) return;
-    if (event.key === 'ArrowRight') { event.preventDefault(); showPage(current + 1); }
-    if (event.key === 'ArrowLeft') { event.preventDefault(); showPage(current - 1); }
-    if (event.key === 'Home') { event.preventDefault(); showPage(1); }
-    if (event.key === 'End') { event.preventDefault(); showPage(total); }
+    if (event.key === 'ArrowRight') { event.preventDefault(); goToPage(current + 1); }
+    if (event.key === 'ArrowLeft') { event.preventDefault(); goToPage(current - 1); }
+    if (event.key === 'Home') { event.preventDefault(); goToPage(1); }
+    if (event.key === 'End') { event.preventDefault(); goToPage(total); }
   });
-  showPage(parseHash(), false);
+  const initial = parseHash();
+  setCurrent(initial);
+  renderPage(records[initial - 1]);
+  if (initial > 1) requestAnimationFrame(() => goToPage(initial));
 })();

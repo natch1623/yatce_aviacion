@@ -51,7 +51,7 @@ GitHub Pages publica la rama `main`, carpeta raíz (`/`). El archivo `.nojekyll`
 
 ## Informe completo: lectura en el teléfono
 
-El [informe de práctica profesional](https://natch1623.github.io/yatce_aviacion/informe/) tiene su propio visor en `informe/`, con las 20 páginas del documento proporcionado el 29 de octubre de 2026. Permite cambiar de página, saltar a un número y ampliar entre 100 % y 250 %. El navegador conserva el zoom con dos dedos. Los enlaces `informe/#pagina=5` abren una página concreta.
+El [informe de práctica profesional](https://natch1623.github.io/yatce_aviacion/informe/) tiene su propio visor en `informe/`, con las 20 páginas del documento proporcionado el 29 de octubre de 2026. Las páginas aparecen una debajo de otra para leer todo el documento con desplazamiento vertical, como un PDF. El contador sigue la página visible; también permite saltar a un número y ampliar entre 100 % y 250 %. El navegador conserva el zoom con dos dedos. Los enlaces `informe/#pagina=5` abren una página concreta. Las páginas cercanas se cargan a medida que se avanza; las lejanas conservan su espacio y liberan la memoria del canvas para facilitar la lectura en teléfonos.
 
 El PDF original no está en este repositorio. El visor dibuja páginas WebP en un canvas y no muestra controles de descarga o impresión. Se desactivan el menú contextual sobre la página y los atajos habituales para guardar e imprimir; la impresión del navegador omite las páginas del informe.
 

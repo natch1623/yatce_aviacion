@@ -10,8 +10,8 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <title>Informe de práctica · Yatcelys Grajales</title>
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="visor.css">
-  <script src="visor.js" defer></script>
+  <link rel="stylesheet" href="visor.css?v=2">
+  <script src="visor.js?v=2" defer></script>
 </head>
 <body>
   <header class="masthead">
@@ -36,16 +36,11 @@
       </div>
     </nav>
 
-    <p class="hint">Lee página a página. Usa <strong>+</strong> para ampliar o acerca la pantalla con dos dedos.</p>
-    <section id="document-region" class="document-region" aria-label="Informe de práctica profesional" aria-busy="true">
-      <div id="paper" class="paper">
-        <canvas id="page-canvas" role="img" aria-label="Página del informe" hidden>Activa JavaScript para leer las páginas del informe.</canvas>
-        <div id="loading" class="loading" role="status"><span class="spinner" aria-hidden="true"></span><span id="loading-text">Cargando informe…</span></div>
-        <div id="error" class="error" role="alert" hidden><strong>No se pudo cargar esta página.</strong><p>Comprueba tu conexión y vuelve a intentarlo.</p><button id="retry" class="retry">Reintentar</button></div>
-      </div>
+    <p class="hint">Desplázate hacia abajo para leer el informe completo. Usa <strong>+</strong> para ampliar.</p>
+    <section id="document-region" class="document-region" aria-label="Informe de práctica profesional: 20 páginas en lectura continua">
+      <div id="pages" class="pages"></div>
     </section>
     <div class="reader-footer"><span id="page-caption" aria-live="polite">Página 1 de 20</span><span>Informe de práctica profesional</span></div>
-    <p class="notice">Visor de lectura, sin descarga del PDF original.</p>
     <noscript><p class="noscript">Este visor necesita JavaScript para mostrar las páginas. Actívalo en el navegador.</p></noscript>
   </main>
   <p id="toast" class="toast" role="status" hidden></p>

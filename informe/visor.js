@@ -62,7 +62,8 @@
         source.decoding = 'async';
         source.onload = () => resolve(source);
         source.onerror = () => reject(new Error('Página no disponible'));
-        source.src = `paginas/pagina-${String(record.number).padStart(2, '0')}.webp`;
+        const revision = record.number === 1 ? '?v=20261030' : '';
+        source.src = `paginas/pagina-${String(record.number).padStart(2, '0')}.webp${revision}`;
       });
       if (request !== record.request) return;
       const context = record.canvas.getContext('2d', { alpha: false });

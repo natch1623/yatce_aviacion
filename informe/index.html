@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow, noarchive, noimageindex">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#102b43">
+  <meta name="description" content="Lectura en línea del informe de práctica profesional de Yatcelys Grajales en Air Panamá.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Informe de práctica · Yatcelys Grajales</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="visor.css">
+  <script src="visor.js" defer></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="identity">
+      <svg class="emblem" viewBox="0 0 40 40" aria-hidden="true"><path d="m5 24 12-5V7l3-3 3 15 12 5v3l-12-2-1 7 5 3v2l-7-2-7 2v-2l5-3-1-7-12 2z" fill="currentColor"/></svg>
+      <div><p class="eyebrow">PRÁCTICA PROFESIONAL</p><h1>Air Panamá <span>· Yatcelys Grajales</span></h1></div>
+    </div>
+    <span class="reading-badge"><span></span>Lectura en línea</span>
+  </header>
+
+  <main>
+    <nav class="toolbar" aria-label="Controles del informe">
+      <div class="page-controls">
+        <button id="previous" class="icon-button" aria-label="Página anterior" title="Página anterior" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button>
+        <label class="page-picker" for="page-select">Página <select id="page-select" aria-label="Ir a la página"></select><span id="page-total">/ 20</span></label>
+        <button id="next" class="icon-button" aria-label="Página siguiente" title="Página siguiente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button>
+      </div>
+      <div class="zoom-controls" aria-label="Ampliación">
+        <button id="zoom-out" class="icon-button" aria-label="Reducir" title="Reducir" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg></button>
+        <button id="zoom-reset" class="zoom-label" aria-label="Ajustar página al ancho" title="Ajustar al ancho">100%</button>
+        <button id="zoom-in" class="icon-button" aria-label="Ampliar" title="Ampliar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12M12 6v12"/></svg></button>
+      </div>
+    </nav>
+
+    <p class="hint">Lee página a página. Usa <strong>+</strong> para ampliar o acerca la pantalla con dos dedos.</p>
+    <section id="document-region" class="document-region" aria-label="Informe de práctica profesional" aria-busy="true">
+      <div id="paper" class="paper">
+        <canvas id="page-canvas" role="img" aria-label="Página del informe" hidden>Activa JavaScript para leer las páginas del informe.</canvas>
+        <div id="loading" class="loading" role="status"><span class="spinner" aria-hidden="true"></span><span id="loading-text">Cargando informe…</span></div>
+        <div id="error" class="error" role="alert" hidden><strong>No se pudo cargar esta página.</strong><p>Comprueba tu conexión y vuelve a intentarlo.</p><button id="retry" class="retry">Reintentar</button></div>
+      </div>
+    </section>
+    <div class="reader-footer"><span id="page-caption" aria-live="polite">Página 1 de 20</span><span>Informe de práctica profesional</span></div>
+    <p class="notice">Visor de lectura, sin descarga del PDF original.</p>
+    <noscript><p class="noscript">Este visor necesita JavaScript para mostrar las páginas. Actívalo en el navegador.</p></noscript>
+  </main>
+  <p id="toast" class="toast" role="status" hidden></p>
+  <p class="print-message">Este informe está disponible para lectura en línea.</p>
+</body>
+</html>

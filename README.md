@@ -48,3 +48,11 @@ La escena y los aviones actuales se generan por código. La calidad se adapta al
 ## Publicación
 
 GitHub Pages publica la rama `main`, carpeta raíz (`/`). El archivo `.nojekyll` permite servir los archivos estáticos directamente. Cada versión tiene su propio directorio y su propia URL.
+
+## Informe completo: lectura en el teléfono
+
+El [informe de práctica profesional](https://natch1623.github.io/yatce_aviacion/informe/) tiene su propio visor en `informe/`, con las 20 páginas del documento proporcionado el 29 de octubre de 2026. Permite cambiar de página, saltar a un número y ampliar entre 100 % y 250 %. El navegador conserva el zoom con dos dedos. Los enlaces `informe/#pagina=5` abren una página concreta.
+
+El PDF original no está en este repositorio. El visor dibuja páginas WebP en un canvas y no muestra controles de descarga o impresión. Se desactivan el menú contextual sobre la página y los atajos habituales para guardar e imprimir; la impresión del navegador omite las páginas del informe.
+
+Estas medidas son obstáculos de interfaz, no protección contra copia: el sitio y las imágenes son públicos, y una persona puede guardar las páginas, reconstruir el contenido o hacer capturas. GitHub Pages no permite garantizar que un documento visible sea imposible de descargar. La vista en canvas tampoco ofrece el texto completo a lectores de pantalla.
